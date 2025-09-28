@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Firebase Backend</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .error { background: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 Firebase Backend Test</h1>
+        <p>This page tests your Firebase backend connection and functionality.</p>
+        
+        <div class="test-section">
+            <h3>1. Test Database Connection</h3>
+            <button onclick="testConnection()">Test Connection</button>
+            <div id="connection-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>2. Test Data Save</h3>
+            <button onclick="testSaveData()">Save Test Data</button>
+            <div id="save-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>3. Test Data Read</h3>
+            <button onclick="testReadData()">Read Test Data</button>
+            <div id="read-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>4. Test Authentication</h3>
+            <button onclick="testAuth()">Test Auth Setup</button>
+            <div id="auth-result"></div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getAuth } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        // Your Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyCXjpnfn0_Ni0OrlvikZzYyY4AeYCUeozA",
+            authDomain: "taxwise-25d3b.firebaseapp.com",
+            projectId: "taxwise-25d3b",
+            storageBucket: "taxwise-25d3b.firebasestorage.app",
+            messagingSenderId: "466214871803",
+            appId: "1:466214871803:web:8928e7c68b2a010a59865e",
+            measurementId: "G-LYZ4E6E2FD"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // Make functions global
+        window.testConnection = async () => {
+            const resultDiv = document.getElementById('connection-result');
+            try {
+                resultDiv.innerHTML = '<p>🔄 Testing connection...</p>';
+                
+                // Test basic connection
+                const testDoc = await addDoc(collection(db, 'connection-test'), {
+                    timestamp: new Date(),
+                    message: 'Connection test successful!'
+                });
+                
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <h4>✅ Connection Successful!</h4>
+                        <p>Document ID: ${testDoc.id}</p>
+                        <p>Database: Connected to Firestore</p>
+                        <p>Project: ${firebaseConfig.projectId}</p>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Connection Failed</h4>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        };
+
+        window.testSaveData = async () => {
+            const resultDiv = document.getElementById('save-result');
+            try {
+                resultDiv.innerHTML = '<p>🔄 Saving test data...</p>';
+                
+                const testData = {
+                    creditScore: 750,
+                    income: 500000,
+                    expenses: 300000,
+                    savings: 200000,
+                    timestamp: new Date(),
+                    testType: 'financial-data'
+                };
+                
+                const docRef = await addDoc(collection(db, 'test-data'), testData);
+                
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <h4>✅ Data Saved Successfully!</h4>
+                        <p>Document ID: ${docRef.id}</p>
+                        <pre>${JSON.stringify(testData, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Save Failed</h4>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        };
+
+        window.testReadData = async () => {
+            const resultDiv = document.getElementById('read-result');
+            try {
+                resultDiv.innerHTML = '<p>🔄 Reading test data...</p>';
+                
+                const querySnapshot = await getDocs(collection(db, 'test-data'));
+                const data = [];
+                querySnapshot.forEach((doc) => {
+                    data.push({ id: doc.id, ...doc.data() });
+                });
+                
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <h4>✅ Data Read Successfully!</h4>
+                        <p>Found ${data.length} documents</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Read Failed</h4>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        };
+
+        window.testAuth = async () => {
+            const resultDiv = document.getElementById('auth-result');
+            try {
+                resultDiv.innerHTML = '<p>🔄 Testing authentication...</p>';
+                
+                // Test auth initialization
+                const authInstance = getAuth(app);
+                
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <h4>✅ Authentication Ready!</h4>
+                        <p>Auth Domain: ${firebaseConfig.authDomain}</p>
+                        <p>Current User: ${authInstance.currentUser ? 'Logged in' : 'Not logged in'}</p>
+                        <p>Status: Ready for user registration/login</p>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>❌ Auth Test Failed</h4>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        };
+
+        console.log('🔥 Firebase Backend Test Page Loaded!');
+        console.log('📊 Database:', db);
+        console.log('🔐 Auth:', auth);
+        console.log('🌐 Project:', firebaseConfig.projectId);
+    </script>
+</body>
+</html>

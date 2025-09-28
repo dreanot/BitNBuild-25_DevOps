@@ -40,7 +40,7 @@ React + TailwindCSS (dashboard, visualizations)
 
 Backend / Logic:
 
-Node.js 
+Node.js, Firebase
 
 
 Storage:
