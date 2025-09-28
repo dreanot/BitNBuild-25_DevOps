@@ -5,8 +5,10 @@ import DataUploadZone from './components/DataUploadZone';
 import DataTable from './components/DataTable';
 import DataVisualization from './components/DataVisualization';
 import DataSummary from './components/DataSummary';
+import LoginForm from '../../components/LoginForm';
 import Icon from '../../components/AppIcon';
 import Button from '../../components/ui/Button';
+import { useAuth } from '../../components/AuthProvider';
 
 const DataManagement = () => {
   const [activeTab, setActiveTab] = useState('upload');
@@ -14,6 +16,8 @@ const DataManagement = () => {
   const [currentData, setCurrentData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [showLogin, setShowLogin] = useState(false);
+  const { user, loading: authLoading } = useAuth();
 
   // Available data types that the system can handle
   const dataTypes = [
@@ -234,7 +238,7 @@ const DataManagement = () => {
     return summary;
   };
 
-  if (isLoading) {
+  if (isLoading || authLoading) {
     return (
       <div className="min-h-screen bg-background transition-colors duration-200">
         <Header />
@@ -264,15 +268,46 @@ const DataManagement = () => {
         <div className="max-w-7xl mx-auto">
           {/* Page Header */}
           <div className="mb-8">
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="p-3 bg-primary/10 rounded-lg">
-                <Icon name="Database" size={24} className="text-primary" />
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center space-x-3">
+                <div className="p-3 bg-primary/10 rounded-lg">
+                  <Icon name="Database" size={24} className="text-primary" />
+                </div>
+                <div>
+                  <h1 className="text-3xl font-bold text-foreground">Financial Data Management</h1>
+                  <p className="text-muted-foreground">
+                    Upload, manage, and visualize your financial data for comprehensive tax optimization and credit analysis
+                  </p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-3xl font-bold text-foreground">Financial Data Management</h1>
-                <p className="text-muted-foreground">
-                  Upload, manage, and visualize your financial data for comprehensive tax optimization and credit analysis
-                </p>
+              
+              {/* Auth Section */}
+              <div className="flex items-center space-x-3">
+                {user ? (
+                  <div className="flex items-center space-x-3">
+                    <div className="text-right">
+                      <p className="text-sm font-medium text-foreground">
+                        Welcome, {user.profile?.firstName || user.email}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {user.profile?.email || user.email}
+                      </p>
+                    </div>
+                    <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                      <Icon name="User" size={16} className="text-primary" />
+                    </div>
+                  </div>
+                ) : (
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={() => setShowLogin(true)}
+                    iconName="LogIn"
+                    iconPosition="left"
+                  >
+                    Sign In
+                  </Button>
+                )}
               </div>
             </div>
 
@@ -395,6 +430,24 @@ const DataManagement = () => {
           </div>
         </div>
       </div>
+      
+      {/* Login Modal */}
+      {showLogin && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="relative">
+            <button
+              onClick={() => setShowLogin(false)}
+              className="absolute -top-4 -right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-100 transition-colors"
+            >
+              <Icon name="X" size={16} />
+            </button>
+            <LoginForm 
+              onToggleMode={() => setShowLogin(false)} 
+              onSuccess={() => setShowLogin(false)} 
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

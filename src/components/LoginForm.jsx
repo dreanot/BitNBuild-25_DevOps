@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
 import Button from './ui/Button';
 import Input from './ui/Input';
 import Icon from './AppIcon';
 
-const LoginForm = ({ onToggleMode }) => {
+const LoginForm = ({ onToggleMode, onSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { signIn } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,7 +21,9 @@ const LoginForm = ({ onToggleMode }) => {
     const result = await signIn(email, password);
     
     if (result.success) {
-      // Login successful, user state will be updated by AuthProvider
+      // Login successful, redirect to dashboard
+      navigate('/dashboard');
+      if (onSuccess) onSuccess();
     } else {
       setError(result.error);
     }
@@ -101,7 +105,7 @@ const LoginForm = ({ onToggleMode }) => {
   );
 };
 
-const SignUpForm = ({ onToggleMode }) => {
+const SignUpForm = ({ onToggleMode, onSuccess }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -112,6 +116,7 @@ const SignUpForm = ({ onToggleMode }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { signUp } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData(prev => ({
@@ -137,7 +142,9 @@ const SignUpForm = ({ onToggleMode }) => {
     });
     
     if (result.success) {
-      // Sign up successful, user state will be updated by AuthProvider
+      // Sign up successful, redirect to dashboard
+      navigate('/dashboard');
+      if (onSuccess) onSuccess();
     } else {
       setError(result.error);
     }
@@ -265,15 +272,15 @@ const SignUpForm = ({ onToggleMode }) => {
   );
 };
 
-const AuthModal = () => {
+const AuthModal = ({ onSuccess }) => {
   const [isLogin, setIsLogin] = useState(true);
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       {isLogin ? (
-        <LoginForm onToggleMode={() => setIsLogin(false)} />
+        <LoginForm onToggleMode={() => setIsLogin(false)} onSuccess={onSuccess} />
       ) : (
-        <SignUpForm onToggleMode={() => setIsLogin(true)} />
+        <SignUpForm onToggleMode={() => setIsLogin(true)} onSuccess={onSuccess} />
       )}
     </div>
   );
