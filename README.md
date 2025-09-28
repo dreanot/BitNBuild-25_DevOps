@@ -62,3 +62,4 @@ Tax engine applies deductions, simulates regimes, shows liability.
 Dashboard shows tax savings, spending breakdown, CIBIL health score, and tips.
 
 Export summary as PDF/CSV for future reference.
+
