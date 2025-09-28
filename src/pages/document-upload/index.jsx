@@ -80,6 +80,8 @@ const DocumentUpload = () => {
   }, []);
 
   const handleFilesSelected = async (files) => {
+    if (!files || files.length === 0) return;
+    
     setIsUploading(true);
     
     const newUploadingFiles = files?.map((file, index) => ({
@@ -91,82 +93,87 @@ const DocumentUpload = () => {
       file: file
     }));
 
-    setUploadingFiles(newUploadingFiles);
+    setUploadingFiles(prev => [...prev, ...newUploadingFiles]);
 
-    // Simulate upload and processing
-    for (const uploadFile of newUploadingFiles) {
-      // Simulate upload progress
-      for (let progress = 0; progress <= 100; progress += 20) {
-        await new Promise(resolve => setTimeout(resolve, 200));
+    // Simulate upload and processing for all files
+    const processFiles = async () => {
+      for (const uploadFile of newUploadingFiles) {
+        // Simulate upload progress
+        for (let progress = 0; progress <= 100; progress += 20) {
+          await new Promise(resolve => setTimeout(resolve, 200));
+          setUploadingFiles(prev => 
+            prev?.map(f => 
+              f?.id === uploadFile?.id 
+                ? { ...f, progress, status: progress === 100 ? 'processing' : 'uploading' }
+                : f
+            )
+          );
+        }
+
+        // Simulate AI processing
+        await new Promise(resolve => setTimeout(resolve, 1000));
         setUploadingFiles(prev => 
           prev?.map(f => 
             f?.id === uploadFile?.id 
-              ? { ...f, progress, status: progress === 100 ? 'processing' : 'uploading' }
+              ? { 
+                  ...f, 
+                  status: 'processing', 
+                  processingStage: 'Extracting transaction data...' 
+                }
               : f
           )
         );
+
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        setUploadingFiles(prev => 
+          prev?.map(f => 
+            f?.id === uploadFile?.id 
+              ? { 
+                  ...f, 
+                  status: 'processing', 
+                  processingStage: 'Categorizing expenses...' 
+                }
+              : f
+          )
+        );
+
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        setUploadingFiles(prev => 
+          prev?.map(f => 
+            f?.id === uploadFile?.id 
+              ? { 
+                  ...f, 
+                  status: 'processing', 
+                  processingStage: 'Generating insights...' 
+                }
+              : f
+          )
+        );
+
+        // Complete processing
+        await new Promise(resolve => setTimeout(resolve, 800));
+        
+        const completedDoc = {
+          id: `doc_${Date.now()}_${uploadFile?.name}`,
+          name: uploadFile?.name,
+          type: uploadFile?.name?.split('.')?.pop(),
+          size: uploadFile?.size,
+          status: 'completed',
+          uploadedAt: new Date(),
+          insights: {
+            totalAmount: Math.floor(Math.random() * 100000) + 20000,
+            transactionCount: Math.floor(Math.random() * 50) + 10
+          }
+        };
+
+        setDocuments(prev => [completedDoc, ...prev]);
+        setUploadingFiles(prev => prev?.filter(f => f?.id !== uploadFile?.id));
       }
+    };
 
-      // Simulate AI processing
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setUploadingFiles(prev => 
-        prev?.map(f => 
-          f?.id === uploadFile?.id 
-            ? { 
-                ...f, 
-                status: 'processing', 
-                processingStage: 'Extracting transaction data...' 
-              }
-            : f
-        )
-      );
-
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      setUploadingFiles(prev => 
-        prev?.map(f => 
-          f?.id === uploadFile?.id 
-            ? { 
-                ...f, 
-                status: 'processing', 
-                processingStage: 'Categorizing expenses...' 
-              }
-            : f
-        )
-      );
-
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setUploadingFiles(prev => 
-        prev?.map(f => 
-          f?.id === uploadFile?.id 
-            ? { 
-                ...f, 
-                status: 'processing', 
-                processingStage: 'Generating insights...' 
-              }
-            : f
-        )
-      );
-
-      // Complete processing
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
-      const completedDoc = {
-        id: `doc_${Date.now()}_${uploadFile?.name}`,
-        name: uploadFile?.name,
-        type: uploadFile?.name?.split('.')?.pop(),
-        size: uploadFile?.size,
-        status: 'completed',
-        uploadedAt: new Date(),
-        insights: {
-          totalAmount: Math.floor(Math.random() * 100000) + 20000,
-          transactionCount: Math.floor(Math.random() * 50) + 10
-        }
-      };
-
-      setDocuments(prev => [completedDoc, ...prev]);
-      setUploadingFiles(prev => prev?.filter(f => f?.id !== uploadFile?.id));
-    }
-
+    // Process all files
+    await processFiles();
+    
     setIsUploading(false);
     setShowInsights(true);
   };

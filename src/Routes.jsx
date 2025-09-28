@@ -3,6 +3,7 @@ import { BrowserRouter, Routes as RouterRoutes, Route } from "react-router-dom";
 import ScrollToTop from "components/ScrollToTop";
 import ErrorBoundary from "components/ErrorBoundary";
 import NotFound from "pages/NotFound";
+import DataManagement from './pages/data-management';
 import TaxCalculator from './pages/tax-calculator';
 import FinancialReports from './pages/financial-reports';
 import Dashboard from './pages/dashboard';
@@ -17,7 +18,8 @@ const Routes = () => {
       <ScrollToTop />
       <RouterRoutes>
         {/* Define your route here */}
-        <Route path="/" element={<CreditScoreAnalysis />} />
+        <Route path="/" element={<DataManagement />} />
+        <Route path="/data-management" element={<DataManagement />} />
         <Route path="/tax-calculator" element={<TaxCalculator />} />
         <Route path="/financial-reports" element={<FinancialReports />} />
         <Route path="/dashboard" element={<Dashboard />} />

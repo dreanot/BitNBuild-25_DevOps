@@ -5,8 +5,11 @@ Team Name: TaxWise Innovators
 
 Members:
 Dhruv D'Souza
+
 Norvin Rodrigues
+
 Jess Tuscano
+
 Nandana Bhawsar
 
 📌 Project Abstract:
@@ -62,4 +65,3 @@ Tax engine applies deductions, simulates regimes, shows liability.
 Dashboard shows tax savings, spending breakdown, CIBIL health score, and tips.
 
 Export summary as PDF/CSV for future reference.
-

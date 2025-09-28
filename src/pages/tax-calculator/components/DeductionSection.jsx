@@ -180,20 +180,6 @@ const DeductionSection = ({ deductionData, onDeductionChange, isLoading }) => {
         >
           Auto-Fill Optimal
         </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          iconName="Info"
-        >
-          Deduction Guide
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          iconName="Download"
-        >
-          Save Template
-        </Button>
       </div>
     </div>
   );

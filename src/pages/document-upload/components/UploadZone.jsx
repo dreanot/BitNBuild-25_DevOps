@@ -4,6 +4,7 @@ import Button from '../../../components/ui/Button';
 
 const UploadZone = ({ onFilesSelected, isUploading }) => {
   const [isDragOver, setIsDragOver] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState([]);
   const fileInputRef = useRef(null);
 // all the pdf formats that are supported
 // need to change this and add an image extractor
@@ -28,11 +29,13 @@ const UploadZone = ({ onFilesSelected, isUploading }) => {
     e?.preventDefault();
     setIsDragOver(false);
     const files = Array.from(e?.dataTransfer?.files);
+    setSelectedFiles(files);
     onFilesSelected(files);
   };
 
   const handleFileSelect = (e) => {
     const files = Array.from(e?.target?.files);
+    setSelectedFiles(files);
     onFilesSelected(files);
   };
 
@@ -62,12 +65,12 @@ const UploadZone = ({ onFilesSelected, isUploading }) => {
 
         {/* Upload Text */}
         <h3 className="text-xl font-semibold text-foreground mb-2">
-          {isUploading ? 'Processing Documents...' : 'Upload Financial Documents '} {/* this is the main big text*/}
+          {isUploading ? 'Processing Documents...' : 'Upload Financial Documents'}
         </h3>
         <p className="text-muted-foreground mb-6">
           {isUploading 
             ? 'AI is analyzing your documents for optimal tax planning'
-            : 'Drag and drop your files here, or click to browse'
+            : 'Drag and drop multiple files here, or click to browse and select multiple documents'
           }
         </p>
 
@@ -81,8 +84,18 @@ const UploadZone = ({ onFilesSelected, isUploading }) => {
           iconPosition="left"
           className="mb-6"
         >
-          {isUploading ? 'Uploading...' : 'Choose Files'}
+          {isUploading ? 'Uploading...' : 'Choose Multiple Files'}
         </Button>
+
+        {/* Selected Files Count */}
+        {selectedFiles.length > 0 && !isUploading && (
+          <div className="mb-4 p-3 bg-primary/10 rounded-lg border border-primary/20">
+            <div className="flex items-center justify-center text-sm text-primary">
+              <Icon name="FileText" size={16} className="mr-2" />
+              {selectedFiles.length} file{selectedFiles.length !== 1 ? 's' : ''} selected
+            </div>
+          </div>
+        )}
 
         {/* File Input */}
         <input

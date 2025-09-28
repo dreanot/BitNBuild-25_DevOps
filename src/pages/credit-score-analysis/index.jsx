@@ -10,252 +10,25 @@ import CreditBehaviorInsights from './components/CreditBehaviorInsights';
 import ProgressTracking from './components/ProgressTracking';
 import Icon from '../../components/AppIcon';
 import Button from '../../components/ui/Button';
+import { loadCreditScoreData } from '../../utils/csvReader';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const CreditScoreAnalysis = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [timeframe, setTimeframe] = useState('1y');
   const [isLoading, setIsLoading] = useState(true);
-
-  // Mock data -  we need to take data from a csv file
-  const scoreData = {
-    score: 742,
-    trend: 18,
-    percentile: 78,
-    lastUpdated: "2 days ago"
-  };
-
-  const scoreFactors = [
-    {
-      title: "Payment History",
-      description: "Your track record of making payments on time",
-      icon: "Clock",
-      impact: "positive",
-      impactText: "Excellent",
-      currentValue: "100% on-time payments",
-      percentage: 95,
-      weight: 35,
-      target: "Maintain 100%",
-      recommendation: "Continue making all payments on time to maintain this excellent score factor."
-    },
-    {
-      title: "Credit Utilization",
-      description: "How much of your available credit you\'re using",
-      icon: "CreditCard",
-      impact: "neutral",
-      impactText: "Good",
-      currentValue: "32% utilization",
-      percentage: 68,
-      weight: 30,
-      target: "Below 30%",
-      recommendation: "Reduce utilization to below 30% by paying down balances or requesting credit limit increases."
-    },
-    {
-      title: "Credit History Length",
-      description: "How long you\'ve been using credit",
-      icon: "Calendar",
-      impact: "negative",
-      impactText: "Fair",
-      currentValue: "3.2 years average",
-      percentage: 45,
-      weight: 15,
-      target: "5+ years",
-      recommendation: "Keep older accounts open and avoid closing your oldest credit cards to improve this factor."
-    },
-    {
-      title: "Credit Mix",
-      description: "Variety of credit accounts you have",
-      icon: "Layers",
-      impact: "positive",
-      impactText: "Good",
-      currentValue: "5 different types",
-      percentage: 80,
-      weight: 10,
-      target: "Diverse mix",
-      recommendation: "Your credit mix is good with various account types including cards, loans, and mortgages."
-    },
-    {
-      title: "New Credit Inquiries",
-      description: "Recent applications for new credit",
-      icon: "Plus",
-      impact: "negative",
-      impactText: "High",
-      currentValue: "4 inquiries (6 months)",
-      percentage: 25,
-      weight: 10,
-      target: "2 or fewer",
-      recommendation: "Avoid applying for new credit for the next 6 months to let recent inquiries age."
-    }
-  ];
-
-  const trendData = [
-    { month: "Jul \'23", score: 698, change: 5 },
-    { month: "Aug \'23", score: 682, change: -16 },
-    { month: "Sep \'23", score: 695, change: 13 },
-    { month: "Oct \'23", score: 708, change: 13 },
-    { month: "Nov \'23", score: 715, change: 7 },
-    { month: "Dec \'23", score: 703, change: -12 },
-    { month: "Jan \'24", score: 718, change: 15 },
-    { month: "Feb \'24", score: 725, change: 7 },
-    { month: "Mar \'24", score: 738, change: 13 },
-    { month: "Apr \'24", score: 745, change: 7 },
-    { month: "May \'24", score: 758, change: 13 },
-    { month: "Jun \'24", score: 742, change: -16 }
-  ];
-
-  const recommendations = [
-    {
-      title: "Reduce Credit Card Utilization",
-      description: "Your current utilization is 32%. Reducing it to below 30% could improve your score significantly.",
-      icon: "CreditCard",
-      priority: "high",
-      impact: 25,
-      timeline: "1-2 months",
-      progress: 40,
-      difficulty: "Easy",
-      cost: "Free",
-      steps: [
-        "Pay down ₹15,000 on your HDFC credit card",
-        "Request credit limit increase on SBI card",
-        "Set up automatic payments for minimum balances"
-      ]
-    },
-    {
-      title: "Optimize Payment Timing",
-      description: "Making payments before statement generation can further reduce reported utilization.",
-      icon: "Clock",
-      priority: "medium",
-      impact: 15,
-      timeline: "Immediate",
-      progress: 0,
-      difficulty: "Easy",
-      cost: "Free",
-      steps: [
-        "Set payment dates 3-5 days before statement date",
-        "Monitor statement generation dates",
-        "Use mobile banking for quick payments"
-      ]
-    },
-    {
-      title: "Diversify Credit Portfolio",
-      description: "Adding a secured loan could improve your credit mix and demonstrate responsible borrowing.",
-      icon: "Layers",
-      priority: "low",
-      impact: 12,
-      timeline: "3-6 months",
-      progress: 20,
-      difficulty: "Medium",
-      cost: "Interest charges",
-      steps: [
-        "Research gold loan or fixed deposit loan options",
-        "Compare interest rates across banks",
-        "Apply for a small secured loan amount"
-      ]
-    }
-  ];
-
-  const behaviorData = [
-    {
-      type: "payment_history",
-      title: "Payment Consistency",
-      description: "On-time payment patterns",
-      score: 95,
-      insight: "Excellent payment history with 100% on-time payments for the last 18 months."
-    },
-    {
-      type: "utilization",
-      title: "Credit Usage",
-      description: "How you manage available credit",
-      score: 68,
-      insight: "Generally good utilization, but occasional spikes above 40% impact your score."
-    },
-    {
-      type: "account_mix",
-      title: "Account Diversity",
-      description: "Variety in credit products",
-      score: 82,
-      insight: "Good mix of credit cards, personal loan, and home loan showing responsible credit management."
-    }
-  ];
-
-  const spendingPatterns = {
-    monthly: [
-      { month: "Jan", amount: 45000 },
-      { month: "Feb", amount: 52000 },
-      { month: "Mar", amount: 48000 },
-      { month: "Apr", amount: 55000 },
-      { month: "May", amount: 42000 },
-      { month: "Jun", amount: 58000 }
-    ],
-    categories: [
-      { name: "Food & Dining", amount: 18000 },
-      { name: "Shopping", amount: 15000 },
-      { name: "Transportation", amount: 12000 },
-      { name: "Bills & Utilities", amount: 8000 },
-      { name: "Entertainment", amount: 5000 },
-      { name: "Others", amount: 7000 }
-    ]
-  };
-
-  const goals = [
-    {
-      title: "Reach 750 CIBIL Score",
-      description: "Improve score by 8 points through utilization optimization",
-      current: 742,
-      target: 750,
-      progress: 75,
-      status: "in_progress",
-      deadline: "2024-08-15"
-    },
-    {
-      title: "Reduce Credit Utilization",
-      description: "Bring utilization below 30% across all cards",
-      current: 32,
-      target: 25,
-      progress: 60,
-      status: "in_progress",
-      deadline: "2024-07-30"
-    },
-    {
-      title: "Zero Late Payments",
-      description: "Maintain perfect payment history for 24 months",
-      current: 18,
-      target: 24,
-      progress: 90,
-      status: "in_progress",
-      deadline: "2025-01-15"
-    }
-  ];
-
-  const achievements = [
-    {
-      title: "Payment Streak Master",
-      description: "18 months of on-time payments",
-      icon: "Award",
-      date: "2024-06-15",
-      impact: 15
-    },
-    {
-      title: "Utilization Optimizer",
-      description: "Reduced utilization from 45% to 32%",
-      icon: "TrendingDown",
-      date: "2024-05-20",
-      impact: 12
-    },
-    {
-      title: "Credit Mix Champion",
-      description: "Successfully diversified credit portfolio",
-      icon: "Layers",
-      date: "2024-04-10",
-      impact: 8
-    },
-    {
-      title: "Score Milestone",
-      description: "Crossed 740 CIBIL score threshold",
-      icon: "Target",
-      date: "2024-03-25",
-      impact: 20
-    }
-  ];
+  const [error, setError] = useState(null);
+  const { isDarkMode } = useTheme();
+  
+  // State for CSV data
+  const [scoreData, setScoreData] = useState({});
+  const [scoreFactors, setScoreFactors] = useState([]);
+  const [trendData, setTrendData] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
+  const [behaviorData, setBehaviorData] = useState([]);
+  const [goals, setGoals] = useState([]);
+  const [achievements, setAchievements] = useState([]);
+  const [spendingPatterns, setSpendingPatterns] = useState({ monthly: [], categories: [] });
 
   const tabs = [
     { id: 'overview', label: 'Overview', icon: 'BarChart3' },
@@ -268,12 +41,31 @@ const CreditScoreAnalysis = () => {
   ];
 
   useEffect(() => {
-    // Simulate loading
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
+    const loadData = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        
+        const data = await loadCreditScoreData();
+        
+        setScoreData(data.scoreData);
+        setScoreFactors(data.scoreFactors);
+        setTrendData(data.trendData);
+        setRecommendations(data.recommendations);
+        setBehaviorData(data.behaviorData);
+        setGoals(data.goals);
+        setAchievements(data.achievements);
+        setSpendingPatterns(data.spendingPatterns);
+        
+      } catch (err) {
+        console.error('Error loading credit score data:', err);
+        setError('Failed to load credit score data. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    return () => clearTimeout(timer);
+    loadData();
   }, []);
 
   const renderTabContent = () => {
@@ -299,14 +91,41 @@ const CreditScoreAnalysis = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background transition-colors duration-200">
         <Header />
         <div className="pt-20 px-4 lg:px-6">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-center h-96">
               <div className="text-center">
                 <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                <p className="text-muted-foreground">Analyzing your credit profile...</p>
+                <p className="text-muted-foreground">Loading your credit profile...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-background transition-colors duration-200">
+        <Header />
+        <div className="pt-20 px-4 lg:px-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-center justify-center h-96">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icon name="AlertCircle" size={24} className="text-destructive" />
+                </div>
+                <h2 className="text-xl font-semibold text-foreground mb-2">Error Loading Data</h2>
+                <p className="text-muted-foreground mb-4">{error}</p>
+                <Button 
+                  onClick={() => window.location.reload()} 
+                  variant="default"
+                >
+                  Try Again
+                </Button>
               </div>
             </div>
           </div>
@@ -316,7 +135,7 @@ const CreditScoreAnalysis = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background transition-colors duration-200">
       <Helmet>
         <title>Credit Score Analysis - TaxWise</title>
         <meta name="description" content="Comprehensive CIBIL score analysis with AI-powered recommendations and improvement strategies" />
@@ -340,20 +159,20 @@ const CreditScoreAnalysis = () => {
 
             {/* Quick Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <div className="p-4 bg-card rounded-lg border border-border text-center">
-                <div className="text-2xl font-bold text-success">742</div>
+              <div className="p-4 bg-card rounded-lg border border-border text-center transition-all duration-200 hover:shadow-elevated dark:hover:shadow-lg">
+                <div className="text-2xl font-bold text-success">{scoreData.score || 'N/A'}</div>
                 <div className="text-sm text-muted-foreground">Current Score</div>
               </div>
-              <div className="p-4 bg-card rounded-lg border border-border text-center">
-                <div className="text-2xl font-bold text-primary">+18</div>
+              <div className="p-4 bg-card rounded-lg border border-border text-center transition-all duration-200 hover:shadow-elevated dark:hover:shadow-lg">
+                <div className="text-2xl font-bold text-primary">{scoreData.trend ? `+${scoreData.trend}` : 'N/A'}</div>
                 <div className="text-sm text-muted-foreground">Monthly Change</div>
               </div>
-              <div className="p-4 bg-card rounded-lg border border-border text-center">
-                <div className="text-2xl font-bold text-warning">78%</div>
+              <div className="p-4 bg-card rounded-lg border border-border text-center transition-all duration-200 hover:shadow-elevated dark:hover:shadow-lg">
+                <div className="text-2xl font-bold text-warning">{scoreData.percentile ? `${scoreData.percentile}%` : 'N/A'}</div>
                 <div className="text-sm text-muted-foreground">Percentile</div>
               </div>
-              <div className="p-4 bg-card rounded-lg border border-border text-center">
-                <div className="text-2xl font-bold text-foreground">3</div>
+              <div className="p-4 bg-card rounded-lg border border-border text-center transition-all duration-200 hover:shadow-elevated dark:hover:shadow-lg">
+                <div className="text-2xl font-bold text-foreground">{goals.length}</div>
                 <div className="text-sm text-muted-foreground">Active Goals</div>
               </div>
             </div>
@@ -367,9 +186,10 @@ const CreditScoreAnalysis = () => {
                   <button
                     key={tab?.id}
                     onClick={() => setActiveTab(tab?.id)}
-                    className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap transition-smooth ${
+                    className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap transition-all duration-200 ${
                       activeTab === tab?.id
-                        ? 'border-primary text-primary' :'border-transparent text-muted-foreground hover:text-foreground hover:border-muted'
+                        ? 'border-primary text-primary' 
+                        : 'border-transparent text-muted-foreground hover:text-foreground hover:border-muted hover:bg-muted/50 rounded-t-md'
                     }`}
                   >
                     <Icon name={tab?.icon} size={16} />
@@ -385,33 +205,6 @@ const CreditScoreAnalysis = () => {
             {renderTabContent()}
           </div>
 
-          {/* Action Buttons */}
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              variant="default"
-              size="lg"
-              iconName="Download"
-              iconPosition="left"
-            >
-              Download Credit Report
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              iconName="Share"
-              iconPosition="left"
-            >
-              Share Analysis
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              iconName="Calendar"
-              iconPosition="left"
-            >
-              Schedule Review
-            </Button>
-          </div>
         </div>
       </div>
     </div>

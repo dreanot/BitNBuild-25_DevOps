@@ -47,12 +47,37 @@ const UploadProgress = ({ files }) => {
     }
   };
 
+  const completedCount = files?.filter(f => f?.status === 'completed')?.length || 0;
+  const totalCount = files?.length || 0;
+  const processingCount = files?.filter(f => f?.status === 'processing')?.length || 0;
+  const uploadingCount = files?.filter(f => f?.status === 'uploading')?.length || 0;
+
   return (
     <div className="bg-card rounded-lg border border-border p-6">
-      <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center">
-        <Icon name="Activity" size={20} className="mr-2" />
-        Upload Progress
-      </h3>
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-foreground flex items-center">
+          <Icon name="Activity" size={20} className="mr-2" />
+          Upload Progress
+        </h3>
+        <div className="text-sm text-muted-foreground">
+          {completedCount}/{totalCount} completed
+        </div>
+      </div>
+      
+      {/* Overall Progress Bar */}
+      <div className="mb-4">
+        <div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
+          <span>Overall Progress</span>
+          <span>{Math.round((completedCount / totalCount) * 100)}%</span>
+        </div>
+        <div className="w-full bg-muted rounded-full h-2">
+          <div
+            className="h-2 rounded-full bg-primary transition-all duration-300"
+            style={{ width: `${(completedCount / totalCount) * 100}%` }}
+          />
+        </div>
+      </div>
+
       <div className="space-y-4">
         {files?.map((file) => (
           <div key={file?.id} className="border border-border rounded-lg p-4">

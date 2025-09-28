@@ -103,14 +103,6 @@ const Dashboard = () => {
                 </p>
               </div>
               
-              <div className="flex items-center space-x-3 mt-4 sm:mt-0">
-                <Button variant="outline" size="sm" iconName="RefreshCw">
-                  Sync Data
-                </Button>
-                <Button variant="default" size="sm" iconName="Plus">
-                  Add Transaction
-                </Button>
-              </div>
             </div>
           </div>
 

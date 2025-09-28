@@ -1,0 +1,6 @@
+title,description,icon,impact,impactText,currentValue,percentage,weight,target,recommendation
+Payment History,Your track record of making payments on time,Clock,positive,Excellent,100% on-time payments,95,35,Maintain 100%,Continue making all payments on time to maintain this excellent score factor.
+Credit Utilization,How much of your available credit you're using,CreditCard,neutral,Good,32% utilization,68,30,Below 30%,Reduce utilization to below 30% by paying down balances or requesting credit limit increases.
+Credit History Length,How long you've been using credit,Calendar,negative,Fair,3.2 years average,45,15,5+ years,Keep older accounts open and avoid closing your oldest credit cards to improve this factor.
+Credit Mix,Variety of credit accounts you have,Layers,positive,Good,5 different types,80,10,Diverse mix,Your credit mix is good with various account types including cards loans and mortgages.
+New Credit Inquiries,Recent applications for new credit,Plus,negative,High,4 inquiries (6 months),25,10,2 or fewer,Avoid applying for new credit for the next 6 months to let recent inquiries age.

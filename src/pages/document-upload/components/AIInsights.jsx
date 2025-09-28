@@ -137,18 +137,6 @@ const AIInsights = ({ insights, onViewDetails }) => {
         </div>
       )}
 
-      {/* Quick Actions */}
-      <div className="flex flex-wrap gap-2 mt-6 pt-4 border-t border-border">
-        <Button variant="outline" size="sm" iconName="Calculator" iconPosition="left">
-          Calculate Tax
-        </Button>
-        <Button variant="outline" size="sm" iconName="TrendingUp" iconPosition="left">
-          Check Credit Score
-        </Button>
-        <Button variant="outline" size="sm" iconName="FileText" iconPosition="left">
-          Generate Report
-        </Button>
-      </div>
     </div>
   );
 };

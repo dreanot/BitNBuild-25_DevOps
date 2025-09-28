@@ -69,9 +69,6 @@ const QuickActions = ({ className = '' }) => {
           <h3 className="text-lg font-semibold text-foreground">Quick Actions</h3>
           <p className="text-sm text-muted-foreground">Access key features and tools</p>
         </div>
-        <Button variant="ghost" size="sm" iconName="Grid3X3">
-          View All
-        </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {quickActions?.map((action) => (
@@ -118,30 +115,6 @@ const QuickActions = ({ className = '' }) => {
             onClick={() => navigate('/profile-settings')}
           >
             Settings
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            iconName="HelpCircle"
-            onClick={() => {}}
-          >
-            Help & Support
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            iconName="BookOpen"
-            onClick={() => {}}
-          >
-            Tax Guide
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            iconName="MessageSquare"
-            onClick={() => {}}
-          >
-            Feedback
           </Button>
         </div>
       </div>

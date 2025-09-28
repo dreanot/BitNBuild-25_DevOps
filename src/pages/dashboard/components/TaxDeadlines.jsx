@@ -103,14 +103,6 @@ const TaxDeadlines = ({ className = '' }) => {
                 </span>
               </div>
 
-              <div className="flex items-center space-x-2">
-                {deadline.status === 'available' && (
-                  <Button variant="outline" size="sm" iconName="Download">Download</Button>
-                )}
-                {deadline.status === 'pending' && (
-                  <Button variant="default" size="sm" iconName="ArrowRight">Take Action</Button>
-                )}
-              </div>
             </div>
           </div>
         ))}

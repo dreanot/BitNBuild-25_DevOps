@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Icon from '../AppIcon';
 import Button from './Button';
+import ThemeToggle from './ThemeToggle';
 
 const Header = ({ className = '' }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -145,6 +146,11 @@ const Header = ({ className = '' }) => {
                 ))}
               </div>
             </div>
+
+            {/* Theme Toggle */}
+            <div className="ml-2">
+              <ThemeToggle />
+            </div>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -178,6 +184,14 @@ const Header = ({ className = '' }) => {
                     {item?.path === '/dashboard' && <NotificationBadge count={notifications} />}
                   </button>
                 ))}
+                
+                {/* Mobile Theme Toggle */}
+                <div className="pt-2 border-t border-border">
+                  <div className="flex items-center justify-between px-4 py-3">
+                    <span className="text-sm font-medium text-foreground">Theme</span>
+                    <ThemeToggle size="sm" />
+                  </div>
+                </div>
               </nav>
             </div>
           </div>

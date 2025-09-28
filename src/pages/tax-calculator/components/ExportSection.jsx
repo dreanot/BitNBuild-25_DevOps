@@ -219,11 +219,9 @@ const ExportSection = ({ taxData, incomeData, deductionData, onExport }) => {
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">Tax Summary - Sep 27, 2024</span>
-            <Button variant="ghost" size="xs" iconName="Download">Re-download</Button>
           </div>
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">Deduction Proof - Sep 25, 2024</span>
-            <Button variant="ghost" size="xs" iconName="Download">Re-download</Button>
           </div>
         </div>
       </div>

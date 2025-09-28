@@ -1,0 +1,13 @@
+type,month,name,amount,color
+monthly,Jan,,45000,
+monthly,Feb,,52000,
+monthly,Mar,,48000,
+monthly,Apr,,55000,
+monthly,May,,42000,
+monthly,Jun,,58000,
+category,Jun,Food & Dining,18000,#059669
+category,Jun,Shopping,15000,#1E40AF
+category,Jun,Transportation,12000,#F59E0B
+category,Jun,Bills & Utilities,8000,#EF4444
+category,Jun,Entertainment,5000,#8B5CF6
+category,Jun,Others,7000,#6B7280
