@@ -10,11 +10,22 @@ import QuickActions from './components/QuickActions';
 import AIInsights from './components/AIInsights';
 import Icon from '../../components/AppIcon';
 import Button from '../../components/ui/Button';
+import { useAuth } from '../../components/AuthProvider';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [userName] = useState("Rajesh Kumar");
+  const { user, logout } = useAuth();
+  const userName = user?.profile?.firstName || user?.email || "User";
+
+  const handleSignOut = async () => {
+    try {
+      await logout();
+      navigate('/');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -103,6 +114,17 @@ const Dashboard = () => {
                 </p>
               </div>
               
+              <div className="mt-4 sm:mt-0">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleSignOut}
+                  iconName="LogOut"
+                  iconPosition="left"
+                >
+                  Sign Out
+                </Button>
+              </div>
             </div>
           </div>
 

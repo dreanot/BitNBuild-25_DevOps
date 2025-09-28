@@ -17,7 +17,17 @@ const DataManagement = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, logout } = useAuth();
+
+  const handleSignOut = async () => {
+    try {
+      await logout();
+      // User will be automatically redirected to login state
+      // due to AuthProvider's onAuthStateChanged listener
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
 
   // Available data types that the system can handle
   const dataTypes = [
@@ -296,6 +306,15 @@ const DataManagement = () => {
                     <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
                       <Icon name="User" size={16} className="text-primary" />
                     </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleSignOut}
+                      iconName="LogOut"
+                      iconPosition="left"
+                    >
+                      Sign Out
+                    </Button>
                   </div>
                 ) : (
                   <Button

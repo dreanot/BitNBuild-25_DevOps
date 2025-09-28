@@ -1,5 +1,5 @@
 type,month,category,income,expenses,savings,value,color
-monthly,Apr,,85000,620000,2000,,
+monthly,Apr,,85000,62000,23000,,
 monthly,May,,85000,58000,27000,,
 monthly,Jun,,85000,65000,20000,,
 monthly,Jul,,85000,61000,24000,,
@@ -7,7 +7,7 @@ monthly,Aug,,85000,59000,26000,,
 monthly,Sep,,85000,63000,22000,,
 category,Sep,Housing,,,,32500,#1E40AF
 category,Sep,Food & Dining,,,,12000,#059669
-category,Sep,Transportation,,,,850000,#F59E0B
+category,Sep,Transportation,,,,8500,#F59E0B
 category,Sep,Utilities,,,,4500,#EF4444
 category,Sep,Entertainment,,,,3500,#8B5CF6
 category,Sep,Others,,,,2000,#6B7280
