@@ -24,6 +24,8 @@ const Dashboard = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // need to add working data here
+
   const keyMetrics = [
     {
       title: "Estimated Tax Liability",
@@ -208,3 +210,6 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
+// done ~ norvin

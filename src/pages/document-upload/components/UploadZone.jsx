@@ -5,7 +5,8 @@ import Button from '../../../components/ui/Button';
 const UploadZone = ({ onFilesSelected, isUploading }) => {
   const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef(null);
-
+// all the pdf formats that are supported
+// need to change this and add an image extractor
   const supportedFormats = [
     { type: 'PDF', icon: 'FileText', description: 'Bank statements, credit card statements' },
     { type: 'CSV', icon: 'FileSpreadsheet', description: 'Transaction data, financial records' },
@@ -61,7 +62,7 @@ const UploadZone = ({ onFilesSelected, isUploading }) => {
 
         {/* Upload Text */}
         <h3 className="text-xl font-semibold text-foreground mb-2">
-          {isUploading ? 'Processing Documents...' : 'Upload Financial Documents'}
+          {isUploading ? 'Processing Documents...' : 'Upload Financial Documents '} {/* this is the main big text*/}
         </h3>
         <p className="text-muted-foreground mb-6">
           {isUploading 
@@ -104,7 +105,7 @@ const UploadZone = ({ onFilesSelected, isUploading }) => {
           ))}
         </div>
 
-        {/* Security Notice */}
+        {/* Security Notice need to fix this lie */}
         <div className="flex items-center justify-center mt-6 text-sm text-muted-foreground">
           <Icon name="Shield" size={16} className="mr-2" />
           <span>Bank-grade encryption ensures your documents are secure</span>
@@ -115,3 +116,5 @@ const UploadZone = ({ onFilesSelected, isUploading }) => {
 };
 
 export default UploadZone;
+
+// done - Norvin

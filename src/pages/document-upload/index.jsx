@@ -296,7 +296,7 @@ const DocumentUpload = () => {
                 )}
               </div>
 
-              {/* Security Notice */}
+              {/* Security Notice need to fix here  */}
               <div className="bg-card rounded-lg border border-border p-6">
                 <h3 className="text-lg font-semibold text-foreground mb-3 flex items-center">
                   <Icon name="Shield" size={20} className="mr-2 text-success" />
@@ -381,3 +381,6 @@ const DocumentUpload = () => {
 };
 
 export default DocumentUpload;
+
+
+// done - Norvin

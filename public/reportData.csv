@@ -1,0 +1,18 @@
+type,category,month,amount,color
+tax,Salary Income,,12000000,
+tax,Section 80C,,-150000,
+tax,Section 80D,,-25000,
+tax,HRA Exemption,,-180000,
+tax,Taxable Income,,-845000,
+spending,Housing,,480000,#1E40AF
+spending,Transportation,,120000,#059669
+spending,Food & Dining,,96000,#F59E0B
+spending,Healthcare,,48000,#EF4444
+spending,Entertainment,,36000,#8B5CF6
+spending,Others,,60000,#6B7280
+credit,,Apr,720,
+credit,,May,725,
+credit,,Jun,730,
+credit,,Jul,735,
+credit,,Aug,742,
+credit,,Sep,748,

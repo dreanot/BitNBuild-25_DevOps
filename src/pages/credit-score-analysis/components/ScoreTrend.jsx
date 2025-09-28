@@ -87,6 +87,8 @@ const ScoreTrend = ({ trendData, timeframe, onTimeframeChange }) => {
           <div className="text-xs text-muted-foreground">Mar 2024</div>
         </div>
 
+        {/*need to fixx all the fake values */}
+
         <div className="p-4 bg-muted rounded-lg text-center">
           <div className="flex items-center justify-center space-x-2 mb-2">
             <Icon name="TrendingDown" size={16} className="text-error" />
@@ -110,3 +112,6 @@ const ScoreTrend = ({ trendData, timeframe, onTimeframeChange }) => {
 };
 
 export default ScoreTrend;
+
+
+// done - norvin

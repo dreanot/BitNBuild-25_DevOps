@@ -24,7 +24,7 @@ const UploadProgress = ({ files }) => {
       case 'uploading':
         return 'Uploading...';
       case 'processing':
-        return 'AI Processing...';
+        return 'Processing...';
       case 'completed':
         return 'Completed';
       case 'error':
@@ -116,3 +116,5 @@ const UploadProgress = ({ files }) => {
 };
 
 export default UploadProgress;
+
+// done - Norvin

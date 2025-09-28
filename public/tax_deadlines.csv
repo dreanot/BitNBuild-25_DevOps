@@ -1,0 +1,5 @@
+id,title,description,dueDate,daysLeft,priority,status,icon
+1,ITR Filing Deadline,File your Income Tax Return for FY 2024-25,31 Jul 2025,304,high,pending,FileText
+2,Advance Tax Payment,Fourth installment for current financial year,15 Mar 2025,169,medium,pending,CreditCard
+3,TDS Certificate Download,Form 16 available from employer,15 Jun 2025,261,low,available,Download
+4,Investment Declaration,Submit 80C declarations to employer,31 Mar 2025,185,medium,pending,PiggyBank

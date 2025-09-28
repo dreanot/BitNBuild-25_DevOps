@@ -13,6 +13,9 @@ const TaxRegimeComparison = ({ className = '' }) => {
     { label: '₹25 Lakh', value: 2500000 }
   ];
 
+
+  // need to fix all this and add manaual adding of the values maybe it will be inputted by the user somewhere
+
   const calculateTax = (income, regime) => {
     if (regime === 'old') {
       // Old regime with standard deduction and 80C
@@ -77,8 +80,10 @@ const TaxRegimeComparison = ({ className = '' }) => {
         <Button variant="outline" size="sm" iconName="Calculator">
           Detailed Calculator
         </Button>
+{/* nned to fix the abce button and need to make it work */}
+        
       </div>
-      {/* Income Selector */}
+      {/* Income Selector need to add a manaul selectorand calculator */}
       <div className="mb-6">
         <label className="text-sm font-medium text-foreground mb-3 block">Select Annual Income</label>
         <div className="flex flex-wrap gap-2">
@@ -140,7 +145,7 @@ const TaxRegimeComparison = ({ className = '' }) => {
           </p>
         </div>
       </div>
-      {/* Comparison Chart */}
+      {/* Comparison Chart we need to fix it and convert it into a pie chart */}
       <div>
         <h4 className="text-sm font-medium text-foreground mb-4">Tax Comparison Across Income Levels</h4>
         <div className="w-full h-64">
@@ -179,7 +184,7 @@ const TaxRegimeComparison = ({ className = '' }) => {
         <div className="flex items-start space-x-3">
           <Icon name="Lightbulb" size={20} className="text-primary mt-0.5" />
           <div>
-            <h4 className="font-medium text-foreground mb-1">AI Recommendation</h4>
+            <h4 className="font-medium text-foreground mb-1"> Recommendation</h4>
             <p className="text-sm text-muted-foreground">
               {currentComparison?.savings > 0 
                 ? `For your income level of ₹${(selectedIncome / 100000)?.toFixed(0)} lakh, the old regime saves you ₹${currentComparison?.savings?.toLocaleString('en-IN')}. Consider maximizing 80C deductions.`
@@ -194,3 +199,5 @@ const TaxRegimeComparison = ({ className = '' }) => {
 };
 
 export default TaxRegimeComparison;
+
+//needs some more fixing ~ Norvin

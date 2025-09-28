@@ -16,7 +16,7 @@ const CreditScoreAnalysis = () => {
   const [timeframe, setTimeframe] = useState('1y');
   const [isLoading, setIsLoading] = useState(true);
 
-  // Mock data
+  // Mock data -  we need to take data from a csv file
   const scoreData = {
     score: 742,
     trend: 18,

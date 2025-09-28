@@ -73,6 +73,8 @@ const WhatIfSimulator = () => {
       projectedScore: 742 + impact
     };
 
+    {/* need to fix all the fake values*/}
+
     setScenarios([...scenarios, newScenario]);
     setCurrentScenario({ type: '', amount: '', timeline: '', description: '' });
   };

@@ -84,7 +84,7 @@ const DocumentTable = ({ documents, onDelete, onReprocess }) => {
       </div>
     );
   }
-
+// uploaded documents part
   return (
     <div className="bg-card rounded-lg border border-border overflow-hidden">
       {/* Table Header */}
@@ -92,7 +92,7 @@ const DocumentTable = ({ documents, onDelete, onReprocess }) => {
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-foreground flex items-center">
             <Icon name="FolderOpen" size={20} className="mr-2" />
-            Uploaded Documents ({documents?.length})
+            Uploaded Documents ({documents?.length}) {/* uploaded doc length var */}
           </h3>
           {selectedDocs?.length > 0 && (
             <Button
@@ -100,7 +100,7 @@ const DocumentTable = ({ documents, onDelete, onReprocess }) => {
               size="sm"
               onClick={handleBulkDelete}
               iconName="Trash2"
-              iconPosition="left"
+              iconPosition="left"   
             >
               Delete Selected ({selectedDocs?.length})
             </Button>
@@ -270,3 +270,6 @@ const DocumentTable = ({ documents, onDelete, onReprocess }) => {
 };
 
 export default DocumentTable;
+
+
+// done - Norvin

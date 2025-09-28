@@ -13,16 +13,16 @@ const TaxCalculator = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('input');
   const [incomeData, setIncomeData] = useState({
-    salary: '1200000',
-    business: '0',
-    rental: '0',
-    capital_gains: '0',
+    salary: '120000067', // fanda here 
+    business: '0',  // need to link all of this data with a  csv file
+    rental: '033',
+    capital_gains: '220',
     other: '50000'
   });
 
   const [deductionData, setDeductionData] = useState({
     '80C': {
-      ppf: '150000',
+      ppf: '15006700',
       elss: '0',
       life_insurance: '25000',
       home_loan_principal: '0',

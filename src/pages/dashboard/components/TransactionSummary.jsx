@@ -1,6 +1,9 @@
 import React from 'react';
 import Icon from '../../../components/AppIcon';
 
+
+//need to fix all the fake values that are present here
+
 const TransactionSummary = ({ className = '' }) => {
   const recentTransactions = [
     {
@@ -49,6 +52,8 @@ const TransactionSummary = ({ className = '' }) => {
       icon: "Shield"
     }
   ];
+  //need to fix all the fake values that are present here
+
 
   const getTransactionColor = (type) => {
     switch (type) {
@@ -114,3 +119,9 @@ const TransactionSummary = ({ className = '' }) => {
 };
 
 export default TransactionSummary;
+
+// done  ~ Norvin
+
+/* note ~ need to add a text reader and that will analyse the data
+ after that it will be converted into a csv using someting idk what after that
+  that csv data is put into proper variables */
